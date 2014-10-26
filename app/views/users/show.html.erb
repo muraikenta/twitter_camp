@@ -1,22 +1,15 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
+<h1>
+  <%= profile_image_for user, size: '100' %>
   <%= @user.name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
+</h1>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
 
 <h2>Tweets </h2>
 <% @user.tweets.each do |tweet| %>
-    <div>
-        <%= tweet.content %>
-    </div>
-    <hr>
+  <div>
+    <%= tweet.content %>
+  </div>
+  <hr>
 <% end %>
