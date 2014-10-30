@@ -1,0 +1,7 @@
+<li>
+  <%= profile_image_for(user) %>
+  <%= link_to user.name, user %>
+  <span id="user_<%= user.id %>" class="follow-wrapper">
+  	<%= render 'follow_form', user: user %>
+  </span>
+</li>

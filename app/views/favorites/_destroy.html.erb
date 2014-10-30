@@ -1,0 +1,3 @@
+<%= link_to favorite_path(current_user.favorites.find_by(tweet_id: tweet.id)), remote: true, method: :delete, class: 'favorite-link' do %>
+  <i class="fa fa-star favorite-star"></i>
+<% end %>

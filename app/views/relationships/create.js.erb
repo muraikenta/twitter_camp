@@ -1,0 +1,2 @@
+$("#user_<%= @user.id %>").html("<%= escape_javascript(render('users/follow_form', user: @user)) %>")
+$("#followers").html('<%= @user.followers.count %>')

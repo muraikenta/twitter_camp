@@ -1,22 +1,27 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
-
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+        <%= profile_image_for @user %>
+        <%= @user.name %>
+      </h1>
+    </section>
+    <span id="user_<%= @user.id %>" class="follow-wrapper">
+      <%= render 'follow_form', user: @user if signed_in? %>
+    </span>
+    <section>
+      <%= render 'shared/stats' %>
+    </section>
+  </aside>
+  <div id="feed" class="span8">
+    <% if @user.tweets.any? %>
+      <h3>Tweets (<%= @user.tweets.count %>)</h3>
+      <ol class="microposts">
+        <%= render @tweets %>
+      </ol>
+      <%= will_paginate @tweets %>
+    <% end %>
+  </div>
+</div>
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
-
-<h2>Tweets </h2>
-<% @user.tweets.each do |tweet| %>
-	<div>
-		<%= tweet.content %>
-	</div>
-	<hr>
-<% end %>

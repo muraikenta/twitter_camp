@@ -1,0 +1,2 @@
+$('#tweet_<%= @tweet.id %>').html('<%= escape_javascript(render("favorites/favorite_btn", tweet: @tweet)) %>');
+$('#favorites').text('<%= current_user.favorites.count %>');

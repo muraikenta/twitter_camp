@@ -1,5 +1,7 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: [:show, :edit, :update, :destroy]
+  before_action :signed_in_user, only: [:create, :destroy]
+  before_action :correct_user,   only: :destroy
 
   # GET /tweets
   # GET /tweets.json
@@ -24,16 +26,13 @@ class TweetsController < ApplicationController
   # POST /tweets
   # POST /tweets.json
   def create
-    @tweet = Tweet.new(tweet_params)
-
-    respond_to do |format|
-      if @tweet.save
-        format.html { redirect_to @tweet, notice: 'Tweet was successfully created.' }
-        format.json { render action: 'show', status: :created, location: @tweet }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @tweet.errors, status: :unprocessable_entity }
-      end
+    @tweet = current_user.tweets.build(tweet_params)
+    if @tweet.save
+      flash[:success] = "Tweet created!"
+      redirect_to root_url
+    else
+      @tweets = current_user.tweets.paginate(page: params[:page]);
+      render 'about/index'
     end
   end
 
@@ -51,14 +50,23 @@ class TweetsController < ApplicationController
     end
   end
 
+  def reply
+    @tweet = current_user.tweets.build(tweet_params)
+    if @tweet.save
+      flash[:success] = "Tweet created!"
+      redirect_to root_url
+    else
+      @tweets = current_user.tweets.paginate(page: params[:page]);
+      render 'about/index'
+    end
+  end
+
+
   # DELETE /tweets/1
   # DELETE /tweets/1.json
   def destroy
     @tweet.destroy
-    respond_to do |format|
-      format.html { redirect_to tweets_url }
-      format.json { head :no_content }
-    end
+    redirect_to root_url
   end
 
   private
@@ -69,6 +77,11 @@ class TweetsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def tweet_params
-      params.require(:tweet).permit(:content, :user_id)
+      params.require(:tweet).permit(:content, :reply_to)
+    end
+
+    def correct_user
+      @tweet = Tweet.find_by(id: params[:id])
+      redirect_to root_url unless current_user?(@tweet.user)
     end
 end

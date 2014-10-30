@@ -1,0 +1,3 @@
+<%= link_to favorites_path(tweet_id: tweet.id), remote: true, method: :post, class: 'favorite-link' do %>
+  <i class="fa fa-star unfavorite-star"></i>
+<% end %>

@@ -1,25 +1,7 @@
 <%= form_for(@tweet) do |f| %>
-  <% if @tweet.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@tweet.errors.count, "error") %> prohibited this tweet from being saved:</h2>
-
-      <ul>
-      <% @tweet.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
-
+  <%= render 'shared/error_messages', object: f.object %>
   <div class="field">
-    <%= f.label :content %><br>
-    <%= f.text_field :content %>
+    <%= f.text_area :content, placeholder: "Compose new tweet..." %>
   </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+  <%= f.submit "Post", class: "btn btn-large btn-primary" %>
 <% end %>

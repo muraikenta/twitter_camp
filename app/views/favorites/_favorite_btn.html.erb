@@ -1,0 +1,5 @@
+<% if current_user.favorite?(tweet) %>
+    <%= render 'favorites/destroy', tweet: tweet %>
+<% else %>
+    <%= render 'favorites/create', tweet: tweet %>
+<% end %>

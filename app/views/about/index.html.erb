@@ -1,5 +1,34 @@
-<div class="center hero-unit">
-  <h1>Welcome to the Twitter</h1>
+<% if signed_in? %>
 
-  <%= link_to "Sign up now!", new_user_path, class: "btn btn-large btn-primary" %>
-</div>
+  <div class="row">
+    <aside class="span4">
+      <section>
+        <%= render 'shared/user_info' %>
+      </section>
+      <section>
+        <%= render 'shared/stats' %>
+      </section>
+      <section>
+        <%= render 'tweets/form' %>
+      </section>
+    </aside>
+    <div class="span8">
+      <% if @feed_tweets.any? %>
+        <h3><%= @title %></h3>
+        <ol class="microposts">
+          <%= render @feed_tweets %>
+        </ol>
+        <%= will_paginate @feed_tweets %>
+      <% end %>
+    </div>
+  </div>
+
+<% else %>
+
+  <div class="center hero-unit">
+    <h1>Welcome to Twitter</h1>
+
+    <%= link_to "Sign up now!", new_user_path, class: "btn btn-large btn-primary" %>
+  </div>
+
+<% end %>

@@ -1,0 +1,26 @@
+<li>
+	<%= link_to profile_image_for(tweet.user) %>
+  <span class="user">
+    <%= link_to tweet.user.name, tweet.user %>
+  </span>
+  <span class="content"><%= tweet.content %></span>
+  <i class="fa fa-reply reply-btn"></i>
+  <span id="tweet_<%= tweet.id %>">
+    <%= render 'favorites/favorite_btn', tweet: tweet %>
+  </span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(tweet.created_at) %> ago.
+  </span>
+  <% if current_user?(tweet.user) %>
+    <%= link_to "delete", tweet, method: :delete,
+                                     data: { confirm: "You sure?" },
+                                     title: tweet.content %>
+  <% end %>
+  <div class="reply">
+    <%= form_for Tweet.new, url:{ controller: :tweets, action: :reply, id: tweet.id } do |f| %>
+      <%= f.hidden_field :reply_to, value: tweet.id %>
+      <%= text_area_tag 'tweet[content]', "@#{tweet.user.name}", placeholder: 'reply' %>
+      <%= f.submit 'tweet', class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</li>
