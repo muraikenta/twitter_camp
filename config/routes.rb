@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
   match '/about', to: 'about#index', via:'get'
-  match '/search', to: 'search#index', via: 'post'
+  match '/search', to: 'search#index', via: 'get'
   resources :users do
     member do
       get :following, :followers, :favorite
